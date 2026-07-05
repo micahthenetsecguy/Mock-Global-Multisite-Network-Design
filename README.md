@@ -3,22 +3,18 @@
 ## Project Overview (essentially the TLdr)
 This repository contains the logical design multi-site corporate network infrastructure. The architecture simulates a corporate Headquarters (HQ) and a remote Branch office connected via a simulated WAN boundary.
 
-## Let's talk about the components that I used:
+## Branches (locations that I service in real-life)
+Austin, Texas (where I live) - HQ
+New York - Branch
+London - Branch
+Hyderabad - Branch
+Seoul - Branch
 
-I went with a pretty standard setup for this lab. I made this a global build because I work globally for my current job. 
+## Let's talk about the components that I used and my reasoning(apologies, it is a lot):
 
-**Cisco 3560 Multi-Layer Switches (Core)**: I decided to use these because (in this instance) layer 3 switches are superior to layer 2 switches. They have built-in "brains" that allow me to handle all the traffic moving between my internal VLANs right on the switches at lightning speed. It also lets me run HSRP, which is just a fancy way of saying that if one core switch dies, the other one instantly takes over without users losing internet. It just adds some redundancy to ease the minds of the plant/site/office etc. <br><br>
-**Cisco 2911 Router (Edge)**:  Since the 3560 switches are doing all the heavy lifting for the internal traffic, this router can just sit at the door and do edge work. I use it strictly to talk to the branch office via OSPF, translate internal IPs to the internet using NAT, and block bad traffic using ACL security rules.<br><br>
-**Cisco 2911 Router (Branch Edge)**: The one is just the gatekeeper for the remote office. It handles the local branch users and routes their traffic back to Headquarters over the WAN link.
-
-## Cost-Benefit Analysis:
-I feel like this is worth mentioning. I chose the ISR 4321s for many reasons, which I have expanded upon below, but it does come with a much higher initial expenditure than the 2911s. 
-
-The 2911s have already reached their EOL, and it no longer receives security patching, which is a massive security risk. 
-
-Below is the per unit price difference
-<img width="1535" height="659" alt="Screenshot 2026-07-05 183820" src="https://github.com/user-attachments/assets/86285000-bbd8-46fa-b97c-40025db65ecf" />
-<img width="1211" height="775" alt="Screenshot 2026-07-05 183809" src="https://github.com/user-attachments/assets/e0089689-5576-4d21-b270-a51d5d46dd43" />
+Cisco ISR 4321 Edge Routers: To me these routers work for branch offices. Of course, this selection is pretty dependent on the traffic
+Cisco ISR 4431: I was going to use the 4321 routers for all offices, but after doing some research, I realized that they would choke as the spine for the network. They only max out around 50 to 100 Mbps, which is totally fine for a single branch office with a few users, but if I tried to force all four international offices in New York, London, Hyderabad, and Seoul to tunnel back into one at the Austin HQ, it would become a massive bottleneck. Plus, once I start adding the zone-based firewall rules, NAT configurations, and all the OSPF routing processes onto them, the CPU would just lock up. So, to keep it realistic, I decided to upgrade the Austin HQ routers to the ISR 4431 model so the core actually has enough bandwidth to handle the global traffic.
+Cisco Catalyst 3650-24PS Multi-Layer Switches: I decided to use these because (in this instance) layer 3 switches are superior to layer 2 switches. They have built-in "brains" that allow me to handle all the traffic moving between my internal VLANs right on the switches at lightning speed. It also lets me run HSRP, which is just a fancy way of saying that if one core switch dies, the other one instantly takes over without users losing internet. It just adds some redundancy to ease the minds of the plant/site/office etc.
 
 ## Resources I used:
  
