@@ -21,6 +21,6 @@ This is how I structured the build. I could have done it quicker but I wanted to
 
 ### Week 1: Layer 2 Infrastructure & STP Optimization
 **Day 1: Topology Mapping & Physical Placement**
-  - Mapped out physical connections in Cisco Packet Tracer.
+  - Mapped out physical devices and connections in Cisco Packet Tracer.
   - Establish interconnect links using parallel cross-over cables to prepare for aggregation.
   - Bare bones stuff
