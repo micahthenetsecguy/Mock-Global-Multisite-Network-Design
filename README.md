@@ -3,6 +3,10 @@
 ## Project Overview (essentially the TLdr)
 This repository contains the logical design multi-site corporate network infrastructure. The architecture simulates a corporate Headquarters (HQ) and a remote Branch office connected via a simulated WAN boundary.
 
+## Network Topology
+-Hub (Austin, TX) and Spoke (New York, Seoul, London, Hyderabad)
+Because this project requires a ton of bandwidth I needed to make sure each spoke fed directly into the hub.
+
 ## Branches (locations that I service in real-life)
 Austin, Texas (where I live) - HQ
 New York - Branch
@@ -19,13 +23,16 @@ Seoul - Branch
 
 ## Design Overview
 
-## Resources I used:
- 
-https://www.skendric.com/seminar/
+## Issues I ran into and how I fixed them
+I was running kinda a mesh topology. At first, I planned for London to feed into New York; Hyderabad fed into Seoul; Seoul and New York both acted as a gateway to Austin. Unfortunately, this layout ended with me running out of ports. I thought about just adding some components, specifically the NIM-ES2-4, but since I am setting up the system right now, let's just do it right. I changed the layout to a pure hub-and-spoke where every international branch connects directly back to the bigger routers at Austin HQ instead. This keeps the branch routers simple and uses the expansion ports on the Austin core where they belong.
 
 ## 60-Day Build Timeline
 (last edited July 5th 2026)<br>
 This is how I structured the build. I could have done it quicker but I wanted to do my best work and kinda take my time (because there is not time limit or deadline)
+
+## Resources I used:
+ 
+https://www.skendric.com/seminar/
 
 ### Week 1: Layer 2 Infrastructure & STP Optimization
 **Day 1: Topology Mapping & Physical Placement**
